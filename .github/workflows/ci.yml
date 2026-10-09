@@ -1,0 +1,174 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_FROZEN: "1"
+  PYTHON_VERSION: "3.12"
+  PYTHONIOENCODING: utf-8
+
+jobs:
+  lint:
+    name: lint (ruff, gitleaks, BigQuery SQL compile + parse)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --all-extras
+      - name: ruff
+        run: |
+          uv run ruff check . --output-format github
+          uv run ruff format --check .
+      - name: gitleaks (full history)
+        run: docker run --rm -v "$PWD:/repo" ghcr.io/gitleaks/gitleaks:v8.30.1 git /repo --redact --exit-code 1
+      - name: compile every model for BigQuery offline (no credentials) and parse the SQL
+        working-directory: dbt
+        run: |
+          uv run dbt compile --target offline --no-populate-cache --target-path target-bq --profiles-dir .
+          uv run sqlfluff parse --dialect bigquery --templater raw target-bq/compiled/geco/models > /dev/null
+
+  unit:
+    name: unit tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --all-extras
+      - run: uv run pytest tests/unit --cov --cov-report=term-missing --cov-report=xml
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: coverage
+          path: coverage.xml
+
+  pipeline:
+    name: pipeline on fixtures (extract -> Pub/Sub -> load -> dbt build -> site) + rerun
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - run: uv sync --all-extras
+      - name: fixture pipeline (exit 3 = data-quality gate, 4 = dbt failure)
+        run: uv run geco fixtures-run --data-dir /tmp/geco-fixtures --site /tmp/geco-fixtures/site
+      - name: dbt source freshness + docs on the fixture warehouse
+        env:
+          GECO_DATA_DIR: /tmp/geco-fixtures
+          GECO_AS_OF: "2026-10-05T12:00:00+00:00"
+        run: |
+          uv run geco dbt -- source freshness
+          uv run geco dbt -- docs generate --static
+      - name: end-to-end tests (marts, reconciliations, idempotent rerun)
+        run: uv run pytest tests/e2e
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: fixture-run
+          path: |
+            /tmp/geco-fixtures/site
+            /tmp/geco-fixtures/lake/ops/dq
+            dbt/target/static_index.html
+            dbt/target/run_results.json
+
+  terraform:
+    name: terraform (fmt, validate, tflint, checkov)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: infra
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
+        with:
+          terraform_version: 1.16.5
+          terraform_wrapper: false
+      - uses: terraform-linters/setup-tflint@6ffdbaa3be476b3431f7275c26966ef32ff60337 # v6.3.2
+        with:
+          tflint_version: v0.64.0
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false
+      - run: terraform validate
+      - name: tflint
+        env:
+          GITHUB_TOKEN: ${{ github.token }} # rate limit for the plugin download only
+        run: |
+          tflint --init
+          tflint --recursive --format compact
+      - name: checkov (every skip is justified inline)
+        run: uvx --from "checkov==3.3.26" checkov -d . --framework terraform --quiet --compact --skip-path .terraform
+
+  emulators:
+    name: integration on GCP emulators (Pub/Sub emulator, fake-gcs-server)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PUBSUB_EMULATOR_HOST: localhost:8085
+      GECO_TEST_GCS_ENDPOINT: http://localhost:4443
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          enable-cache: true
+      - name: start the emulators
+        run: |
+          docker run -d --name pubsub -p 8085:8085 gcr.io/google.com/cloudsdktool/google-cloud-cli:588.0.0-emulators \
+            gcloud beta emulators pubsub start --host-port=0.0.0.0:8085 --project=geco-emulator
+          docker run -d --name gcs -p 4443:4443 fsouza/fake-gcs-server:1.56.1 \
+            -scheme http -port 4443 -public-host localhost:4443
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8085 >/dev/null && curl -sf http://localhost:4443/storage/v1/b >/dev/null && exit 0
+            sleep 2
+          done
+          docker logs pubsub; docker logs gcs; exit 1
+      - run: uv sync --all-extras
+      - run: uv run pytest -m integration tests/integration -v
+      - name: emulator logs
+        if: failure()
+        run: docker logs pubsub; docker logs gcs
+
+  docker:
+    name: container image (Cloud Run jobs)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          load: true
+          tags: geco:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: the image starts and dbt parses inside it
+        run: |
+          docker run --rm geco:ci --help
+          docker run --rm geco:ci dbt -- parse --target offline

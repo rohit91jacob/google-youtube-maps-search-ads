@@ -1,0 +1,76 @@
+name: deploy
+
+# Builds the pipeline image, pushes it to Artifact Registry and points the Cloud Run jobs at it.
+# Disabled until a real GCP project exists: every step is gated on the repository variables
+# GCP_WORKLOAD_IDENTITY_PROVIDER and GCP_DEPLOYER_SERVICE_ACCOUNT (outputs of infra/). Auth is
+# keyless Workload Identity Federation; the provider only trusts this repository's "production"
+# environment, so the job runs in it. Terraform itself is applied by a human (docs/runbook.md).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["src/**", "dbt/**", "Dockerfile", "pyproject.toml", "uv.lock"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  gate:
+    name: GCP configured?
+    runs-on: ubuntu-24.04
+    outputs:
+      enabled: ${{ steps.check.outputs.enabled }}
+    steps:
+      - id: check
+        env:
+          PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          ACCOUNT: ${{ vars.GCP_DEPLOYER_SERVICE_ACCOUNT }}
+          PROJECT: ${{ vars.GCP_PROJECT_ID }}
+        run: |
+          if [ -n "$PROVIDER" ] && [ -n "$ACCOUNT" ] && [ -n "$PROJECT" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=deploy skipped::Set GCP_WORKLOAD_IDENTITY_PROVIDER, GCP_DEPLOYER_SERVICE_ACCOUNT and GCP_PROJECT_ID repository variables to enable (docs/runbook.md#deploying-to-real-gcp)."
+          fi
+
+  deploy:
+    name: build, push, update Cloud Run jobs
+    needs: gate
+    if: needs.gate.outputs.enabled == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    environment: production
+    permissions:
+      contents: read
+      id-token: write # OIDC token for Workload Identity Federation; no keys
+    env:
+      PROJECT: ${{ vars.GCP_PROJECT_ID }}
+      REGION: ${{ vars.GCP_REGION || 'europe-west1' }}
+      IMAGE: ${{ vars.GCP_REGION || 'europe-west1' }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/geco/pipeline
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3.0.0
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_DEPLOYER_SERVICE_ACCOUNT }}
+      - uses: google-github-actions/setup-gcloud@aa5489c8933f4cc7a4f7d45035b3b1440c9c10db # v3.0.1
+      - run: gcloud auth configure-docker "$REGION-docker.pkg.dev" --quiet
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGE }}:${{ github.sha }},${{ env.IMAGE }}:latest
+      - name: Point every job at the new digest
+        run: |
+          for job in extract load transform; do
+            gcloud run jobs update "geco-$job" --project "$PROJECT" --region "$REGION" \
+              --image "$IMAGE@${{ steps.build.outputs.digest }}" --quiet
+          done
