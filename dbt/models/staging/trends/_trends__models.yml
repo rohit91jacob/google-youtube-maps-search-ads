@@ -1,0 +1,33 @@
+version: 2
+models:
+  - name: stg_trends__polls
+    description: One row per (geo, poll) of the Google Trends trending-now RSS feed.
+    data_tests:
+      - unique_combination: {arguments: {columns: [geo, polled_at]}}
+    columns:
+      - name: geo
+        data_tests:
+          - not_null
+          - relationships: {arguments: {to: "ref('ref_trends_geos')", field: code}, config: {severity: warn}}
+      - name: polled_at
+        data_tests: [not_null]
+      - name: item_count
+        data_tests: [non_negative]
+  - name: stg_trends__items
+    description: One row per (geo, poll, normalised term).
+    data_tests:
+      - unique_combination: {arguments: {columns: [geo, polled_at, term_key]}}
+    columns:
+      - name: trend_rank
+        data_tests: [not_null, {value_between: {arguments: {min_value: 1, max_value: 100}}}]
+      - name: approx_traffic_min
+        description: Lower bound of Google's approximate search volume bucket ('200+' -> 200).
+        data_tests: [non_negative]
+  - name: stg_trends__events
+    description: Trend entered/exited events as delivered through Pub/Sub (deduplicated by event_id).
+    columns:
+      - name: event_id
+        data_tests: [unique, not_null]
+      - name: event_type
+        data_tests:
+          - accepted_values: {arguments: {values: [entered, exited]}}

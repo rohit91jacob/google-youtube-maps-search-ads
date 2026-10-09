@@ -1,0 +1,18 @@
+version: 2
+models:
+  - name: mart_osm_amenity_density
+    description: >
+      OpenStreetMap features tagged amenity=<value> per km2 of each city's fixed box (latest count).
+      Data (c) OpenStreetMap contributors, ODbL 1.0.
+    data_tests:
+      - unique_combination: {arguments: {columns: [city, amenity]}}
+    columns:
+      - name: per_km2
+        data_tests: [not_null, non_negative]
+  - name: mart_osm_city_profile
+    description: Amenity density per city overall and by category.
+    columns:
+      - name: city
+        data_tests: [unique, not_null]
+      - name: amenities_per_km2
+        data_tests: [not_null, non_negative]

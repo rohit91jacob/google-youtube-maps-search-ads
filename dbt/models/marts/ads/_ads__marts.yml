@@ -1,0 +1,38 @@
+version: 2
+models:
+  - name: dim_political_advertiser
+    description: One row per verified election advertiser, with lifetime spend in its report currency.
+    columns:
+      - name: advertiser_id
+        data_tests: [unique, not_null]
+      - name: lifetime_spend
+        data_tests: [non_negative]
+  - name: fct_political_ad_spend_weekly
+    description: >
+      Weekly political-ad spend per advertiser in the report region's currency. Spend is published
+      by Google rounded to 100 units; weeks run Sunday-Saturday.
+    data_tests:
+      - unique_combination: {arguments: {columns: [advertiser_id, week_start_date, currency]}}
+    columns:
+      - name: region_code
+        data_tests: [not_null]
+      - name: spend
+        data_tests: [not_null, non_negative]
+  - name: mart_political_ad_spend_region_week
+    description: Spend per region x currency x week, the number of advertisers and the top advertiser.
+    data_tests:
+      - unique_combination: {arguments: {columns: [region_code, currency, week_start_date]}}
+    columns:
+      - name: top_advertiser_share
+        data_tests: [{value_between: {arguments: {min_value: 0, max_value: 1}}}]
+  - name: mart_political_ad_top_advertisers
+    description: Top advertisers per region by total weekly-reported spend (var ads_top_advertisers).
+    data_tests:
+      - unique_combination: {arguments: {columns: [region_code, currency, advertiser_rank]}}
+  - name: mart_political_ad_spend_us_state
+    description: Lifetime spend per US state (ISO 3166-2) with the top advertiser.
+    columns:
+      - name: subdivision
+        data_tests: [unique, not_null]
+      - name: share_of_us_spend
+        data_tests: [{value_between: {arguments: {min_value: 0, max_value: 1}}}]

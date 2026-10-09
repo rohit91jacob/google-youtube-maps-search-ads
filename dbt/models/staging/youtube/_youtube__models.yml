@@ -1,0 +1,19 @@
+version: 2
+models:
+  - name: stg_youtube__videos
+    description: >
+      Videos seen in the channels' public RSS feeds (15 most recent uploads per poll) and, when a
+      YOUTUBE_API_KEY is configured, the Data API uploads playlist. latest_views comes from the RSS
+      media:statistics element at the latest poll.
+    columns:
+      - name: video_id
+        data_tests: [unique, not_null]
+      - name: channel_id
+        data_tests: [not_null]
+      - name: published_at
+        data_tests: [not_null]
+  - name: stg_youtube__channels
+    description: One row per channel; subscriber/view/video totals only when the Data API ran.
+    columns:
+      - name: channel_id
+        data_tests: [unique, not_null]

@@ -1,0 +1,39 @@
+# All connection details come from the environment, so this file is safe to commit.
+#   local    DuckDB file written by `geco load` (the BigQuery stand-in). Dev, tests and CI.
+#   bigquery Real BigQuery via Application Default Credentials / Workload Identity Federation.
+#            Not exercised by this repository's CI (no GCP project); see docs/runbook.md.
+#   offline  BigQuery-dialect compile with no credentials and no network (CI). The token is never
+#            used because `dbt compile --no-populate-cache` runs no queries.
+geco:
+  target: "{{ env_var('DBT_TARGET', 'local') }}"
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('GECO_DUCKDB_PATH', '../data/warehouse/geco.duckdb') }}"
+      schema: main
+      threads: 4
+      # BigQuery timestamps are UTC; make DuckDB timestamptz -> date casts behave the same way.
+      settings:
+        TimeZone: UTC
+
+    bigquery:
+      type: bigquery
+      method: oauth
+      project: "{{ env_var('GECO_BQ_PROJECT', 'set-GECO_BQ_PROJECT') }}"
+      dataset: marts
+      location: "{{ env_var('GECO_BQ_LOCATION', 'EU') }}"
+      threads: 4
+      priority: interactive
+      job_execution_timeout_seconds: 900
+      job_retries: 2
+      # Cost guardrail: any single query that would bill more than this fails instead.
+      maximum_bytes_billed: "{{ env_var('GECO_BQ_MAX_BYTES_BILLED', '10000000000') | as_number }}"
+
+    offline:
+      type: bigquery
+      method: oauth-secrets
+      token: "{{ env_var('DBT_BQ_OFFLINE_TOKEN', 'offline-compile-only') }}"
+      project: offline-compile
+      dataset: marts
+      location: EU
+      threads: 4

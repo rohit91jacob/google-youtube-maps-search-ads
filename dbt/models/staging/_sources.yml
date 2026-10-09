@@ -1,0 +1,52 @@
+version: 2
+
+# Raw tables are parquet files written by `geco load` to the lake (raw/<table>/data.parquet).
+# DuckDB: views in schema `raw`. BigQuery: external tables in dataset `raw` (infra/modules/bigquery).
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: trends_polls
+        description: One row per poll of a Google Trends trending-now RSS feed (per geo).
+        config:
+          loaded_at_field: polled_at
+          freshness:
+            warn_after: {count: 1, period: day}
+      - name: trends_items
+        description: One row per trending search in a poll (rank = position in the feed).
+        config:
+          loaded_at_field: polled_at
+          freshness:
+            warn_after: {count: 1, period: day}
+      - name: trends_events
+        description: >
+          'entered'/'exited' events derived poll-to-poll and delivered through Pub/Sub (topic
+          trends-events), deduplicated by event_id.
+      - name: ads_report_updated
+        config:
+          loaded_at_field: report_data_updated_at_pt
+          freshness:
+            warn_after: {count: 8, period: day}
+      - name: ads_advertisers
+      - name: ads_advertiser_spend_totals
+      - name: ads_weekly_spend
+      - name: ads_advertiser_geo_spend
+      - name: ads_geo_spend
+      - name: netflix_global_weekly
+      - name: netflix_country_weekly
+      - name: netflix_most_popular
+      - name: osm_amenity_counts
+        config:
+          loaded_at_field: fetched_at
+          freshness:
+            warn_after: {count: 21, period: day}
+      - name: youtube_videos
+        config:
+          loaded_at_field: polled_at
+          freshness:
+            warn_after: {count: 2, period: day}
+      - name: youtube_channels
+        config:
+          loaded_at_field: polled_at
+          freshness:
+            warn_after: {count: 2, period: day}

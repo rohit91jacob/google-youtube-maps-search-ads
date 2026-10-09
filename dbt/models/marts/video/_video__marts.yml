@@ -1,0 +1,21 @@
+version: 2
+models:
+  - name: mart_youtube_upload_cadence
+    description: >
+      Upload cadence per tracked YouTube channel from all uploads seen in its public RSS feed:
+      median/mean hours between uploads, uploads in the last 7/30 days and view counts. Channel
+      totals (subscribers etc.) are filled only when the optional Data API source ran.
+    columns:
+      - name: channel_id
+        data_tests: [unique, not_null]
+      - name: uploads_observed
+        data_tests: [not_null, {value_between: {arguments: {min_value: 1, max_value: 100000}}}]
+      - name: median_gap_hours
+        data_tests: [non_negative]
+  - name: mart_video_attention_weekly
+    description: >
+      Netflix's most-viewed title of each week next to the most-viewed upload of the tracked
+      YouTube channels published in the same week. Different measures; context, not a ranking.
+    columns:
+      - name: week_end_date
+        data_tests: [unique, not_null]

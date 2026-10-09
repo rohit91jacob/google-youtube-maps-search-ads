@@ -1,0 +1,30 @@
+version: 2
+models:
+  - name: stg_ads__advertisers
+    description: Advertisers verified to run election ads on Google (advertiser-stats file).
+    columns:
+      - name: advertiser_id
+        data_tests: [unique, not_null]
+      - name: primary_region
+        data_tests: [not_null]
+  - name: stg_ads__weekly_spend
+    description: >
+      Spend per advertiser per Sunday-Saturday week, in the region's own currency (long format;
+      zero-spend rows dropped). Google publishes spend rounded to the nearest 100 currency units.
+    data_tests:
+      - unique_combination: {arguments: {columns: [advertiser_id, week_start_date, currency]}}
+    columns:
+      - name: spend
+        data_tests: [not_null, non_negative]
+      - name: currency
+        data_tests:
+          - relationships: {arguments: {to: "ref('ref_ads_currencies')", field: currency}}
+  - name: stg_ads__advertiser_spend_totals
+    data_tests:
+      - unique_combination: {arguments: {columns: [advertiser_id, currency]}}
+  - name: stg_ads__advertiser_geo_spend
+    description: Lifetime US advertiser spend per state (ISO 3166-2, e.g. US-WI).
+    data_tests:
+      - unique_combination: {arguments: {columns: [advertiser_id, country, subdivision, currency]}}
+  - name: stg_ads__geo_spend
+    description: Lifetime spend by geography (state and congressional district for the US).

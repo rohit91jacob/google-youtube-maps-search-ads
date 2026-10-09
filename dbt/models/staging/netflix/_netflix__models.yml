@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_netflix__global_weekly
+    description: >
+      Netflix's global weekly Top 10 lists (four lists: films/TV x English/non-English). Weeks run
+      Monday to Sunday; week_end_date is the Sunday. Views = hours viewed / runtime (published from
+      June 2023; null before).
+    data_tests:
+      - unique_combination: {arguments: {columns: [week_end_date, category, weekly_rank]}}
+    columns:
+      - name: weekly_rank
+        data_tests: [not_null, {value_between: {arguments: {min_value: 1, max_value: 10}}}]
+      - name: weekly_hours_viewed
+        data_tests: [not_null, non_negative]
+      - name: language
+        data_tests:
+          - accepted_values: {arguments: {values: [english, non_english]}}
+  - name: stg_netflix__country_weekly
+    description: Netflix weekly Top 10 per country (films and TV, ranks only).
+    data_tests:
+      - unique_combination: {arguments: {columns: [country_iso2, week_end_date, category, weekly_rank]}}
+  - name: stg_netflix__most_popular
+    description: Netflix's all-time most-popular lists (views in each title's first 91 days).
+    data_tests:
+      - unique_combination: {arguments: {columns: [category, list_rank]}}

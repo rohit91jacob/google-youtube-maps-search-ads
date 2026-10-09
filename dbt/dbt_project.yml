@@ -1,0 +1,51 @@
+name: geco
+version: "1.0.0"
+config-version: 2
+require-dbt-version: [">=1.10.0", "<2.0.0"]
+profile: geco
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages", "logs"]
+
+flags:
+  send_anonymous_usage_stats: false
+
+vars:
+  # Political-ad marts rank this many advertisers per region.
+  ads_top_advertisers: 25
+  # Netflix country-reach mart covers this many most recent weeks.
+  netflix_country_reach_weeks: 26
+
+models:
+  geco:
+    +persist_docs:
+      relation: true
+      columns: true
+    +labels:
+      pipeline: geco
+    staging:
+      +schema: staging
+      +materialized: view
+    intermediate:
+      +schema: intermediate
+      +materialized: view
+    marts:
+      +schema: marts
+      +materialized: table
+
+seeds:
+  geco:
+    +schema: seeds
+    +quote_columns: false
+    ref_trends_geos:
+      +column_types: {code: string, name: string}
+    ref_ads_currencies:
+      +column_types: {currency: string, code: string, name: string}
+
+data_tests:
+  geco:
+    +store_failures: false

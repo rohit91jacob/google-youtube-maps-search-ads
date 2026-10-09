@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: int_trends__poll_terms
+    description: One row per (geo, poll, term) with the previous poll's timestamp.
+    data_tests:
+      - unique_combination: {arguments: {columns: [geo, polled_at, term_key]}}
+  - name: int_youtube__uploads
+    description: Observed uploads per channel with the previous upload's publish time.
+    columns:
+      - name: video_id
+        data_tests: [unique]

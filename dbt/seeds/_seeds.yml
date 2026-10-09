@@ -1,0 +1,17 @@
+version: 2
+seeds:
+  - name: ref_trends_geos
+    description: Google Trends geo codes polled by default and their country names.
+    columns:
+      - name: code
+        data_tests: [unique, not_null]
+  - name: ref_ads_currencies
+    description: >
+      The 20 currencies of Google's political-ads bundle and the report region each belongs to
+      (from the bundle README). Advertisers' spend appears only in their region's currencies.
+    columns:
+      - name: currency
+        data_tests: [unique, not_null]
+      - name: code
+        description: Report region (ISO 3166-1 alpha-2, or EU).
+        data_tests: [not_null]

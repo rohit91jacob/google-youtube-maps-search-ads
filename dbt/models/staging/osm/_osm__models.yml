@@ -1,0 +1,13 @@
+version: 2
+models:
+  - name: stg_osm__amenity_counts
+    description: >
+      Latest Overpass count of OSM features (nodes, ways and relations) tagged amenity=<value>
+      inside each city's fixed box. Data (c) OpenStreetMap contributors, ODbL 1.0.
+    data_tests:
+      - unique_combination: {arguments: {columns: [city, amenity]}}
+    columns:
+      - name: total
+        data_tests: [not_null, non_negative]
+      - name: area_km2
+        data_tests: [not_null, {value_between: {arguments: {min_value: 1, max_value: 10000}}}]

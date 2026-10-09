@@ -1,0 +1,39 @@
+version: 2
+models:
+  - name: mart_trends_churn_by_geo
+    description: >
+      Poll-to-poll churn of Google Trends' trending-now list, per geo. One row per poll that has a
+      predecessor. churn_rate = new_terms / terms.
+    data_tests:
+      - unique_combination: {arguments: {columns: [geo, polled_at]}}
+    columns:
+      - name: churn_rate
+        data_tests: [{value_between: {arguments: {min_value: 0, max_value: 1}}}]
+      - name: terms
+        data_tests: [non_negative]
+      - name: hours_since_previous
+        data_tests: [non_negative]
+  - name: mart_trends_term_longevity
+    description: >
+      One row per (geo, trending term): first and last poll that saw it, polls seen, best rank and
+      observed lifetime. observed_hours is a lower bound limited by the polling interval.
+    data_tests:
+      - unique_combination: {arguments: {columns: [geo, term_key]}}
+    columns:
+      - name: polls_seen
+        data_tests: [not_null, {value_between: {arguments: {min_value: 1, max_value: 100000}}}]
+      - name: observed_hours
+        data_tests: [non_negative]
+  - name: mart_trends_geo_summary
+    description: Per-geo summary of polls, churn and term longevity.
+    data_tests: [not_empty]
+    columns:
+      - name: geo
+        data_tests: [unique, not_null]
+  - name: fct_trends_events
+    description: >
+      Trend entered/exited events published to Pub/Sub by the extractor and loaded by the
+      subscriber. Reconciled against the snapshot diff by assert_trend_events_match_snapshots.
+    columns:
+      - name: event_id
+        data_tests: [unique, not_null]
