@@ -1,0 +1,11 @@
+# Copy to terraform.tfvars (git-ignored) and fill in. Nothing in this repository has been applied to a
+# real project; see docs/runbook.md#infrastructure.
+project_id            = "my-gcp-project"
+region                = "europe-west1"
+bigquery_location     = "EU"
+environment           = "dev"
+github_repository     = "rohit91jacob/google-youtube-maps-search-ads"
+billing_account_id    = null # "XXXXXX-XXXXXX-XXXXXX" creates the budget
+monthly_budget_amount = 10
+budget_alert_email    = null
+enable_youtube_api    = false

@@ -1,0 +1,83 @@
+# Cloud Workflows definition (deployed by infra/modules/orchestration).
+# Argument: {"mode": "full"} (daily) or {"mode": "trends"} (every 3 hours).
+# Each step runs one Cloud Run job and waits for it; a failed job fails the execution, which is the
+# alert signal (Cloud Monitoring / Error Reporting). Job exit code 3 = data-quality gate failed.
+main:
+  params: [args]
+  steps:
+    - init:
+        assign:
+          - project: ${sys.get_env("PROJECT_ID")}
+          - region: ${sys.get_env("REGION")}
+          - mode: ${default(map.get(args, "mode"), "full")}
+          - extract_job: ${sys.get_env("EXTRACT_JOB")}
+          - load_job: ${sys.get_env("LOAD_JOB")}
+          - transform_job: ${sys.get_env("TRANSFORM_JOB")}
+    - choose_mode:
+        switch:
+          - condition: ${mode == "trends"}
+            steps:
+              - poll_trends:
+                  call: run_job
+                  args:
+                    project: ${project}
+                    region: ${region}
+                    job: ${extract_job}
+                    job_args: ["poll-trends"]
+              - trends_done:
+                  return: {"mode": "trends", "status": "ok"}
+    - extract:
+        call: run_job
+        args:
+          project: ${project}
+          region: ${region}
+          job: ${extract_job}
+          job_args: ["extract"]
+    - consume_events:
+        call: run_job
+        args:
+          project: ${project}
+          region: ${region}
+          job: ${extract_job}
+          job_args: ["consume-events"]
+    - load:
+        call: run_job
+        args:
+          project: ${project}
+          region: ${region}
+          job: ${load_job}
+          job_args: ["load"]
+    - transform:
+        call: run_job
+        args:
+          project: ${project}
+          region: ${region}
+          job: ${transform_job}
+          job_args: ["transform"]
+    - done:
+        return: {"mode": "full", "status": "ok"}
+
+run_job:
+  params: [project, region, job, job_args]
+  steps:
+    - run:
+        try:
+          call: googleapis.run.v2.projects.locations.jobs.run
+          args:
+            name: ${"projects/" + project + "/locations/" + region + "/jobs/" + job}
+            body:
+              overrides:
+                containerOverrides:
+                  - args: ${job_args}
+            connector_params:
+              timeout: 3600
+          result: execution
+        retry:
+          predicate: ${http.default_retry_predicate}
+          max_retries: 2
+          backoff:
+            initial_delay: 30
+            max_delay: 300
+            multiplier: 2
+    - finished:
+        return: ${execution}
