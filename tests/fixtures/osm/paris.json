@@ -1,0 +1,250 @@
+{
+ "elements": [
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "9300",
+    "relations": "4",
+    "total": "9420",
+    "ways": "116"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "2590",
+    "relations": "2",
+    "total": "2661",
+    "ways": "69"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "3068",
+    "relations": "5",
+    "total": "3181",
+    "ways": "108"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "1816",
+    "relations": "0",
+    "total": "1855",
+    "ways": "39"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "303",
+    "relations": "1",
+    "total": "304",
+    "ways": "0"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "924",
+    "relations": "1",
+    "total": "939",
+    "ways": "14"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "18",
+    "relations": "2",
+    "total": "75",
+    "ways": "55"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "110",
+    "relations": "3",
+    "total": "128",
+    "ways": "15"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "488",
+    "relations": "2",
+    "total": "495",
+    "ways": "5"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "308",
+    "relations": "0",
+    "total": "309",
+    "ways": "1"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "613",
+    "relations": "18",
+    "total": "1366",
+    "ways": "735"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "35",
+    "relations": "13",
+    "total": "111",
+    "ways": "63"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "243",
+    "relations": "4",
+    "total": "310",
+    "ways": "63"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "351",
+    "relations": "2",
+    "total": "417",
+    "ways": "64"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "118",
+    "relations": "3",
+    "total": "156",
+    "ways": "35"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "69",
+    "relations": "0",
+    "total": "78",
+    "ways": "9"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "363",
+    "relations": "0",
+    "total": "377",
+    "ways": "14"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "1078",
+    "relations": "0",
+    "total": "1101",
+    "ways": "23"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "299",
+    "relations": "26",
+    "total": "2827",
+    "ways": "2502"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "939",
+    "relations": "3",
+    "total": "960",
+    "ways": "18"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "543",
+    "relations": "0",
+    "total": "543",
+    "ways": "0"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "45",
+    "relations": "2",
+    "total": "68",
+    "ways": "21"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "209",
+    "relations": "1",
+    "total": "227",
+    "ways": "17"
+   },
+   "type": "count"
+  },
+  {
+   "id": 0,
+   "tags": {
+    "nodes": "751",
+    "relations": "0",
+    "total": "929",
+    "ways": "178"
+   },
+   "type": "count"
+  }
+ ],
+ "generator": "Overpass API 0.7.62.11 87bfad18",
+ "osm3s": {
+  "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.",
+  "timestamp_osm_base": "2026-10-09T12:28:21Z"
+ },
+ "version": 0.6
+}

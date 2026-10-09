@@ -1,0 +1,63 @@
+{
+ "kind": "youtube#channelListResponse",
+ "_synthetic": "SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.",
+ "items": [
+  {
+   "kind": "youtube#channel",
+   "id": "UCsyntheticFixture00000001",
+   "snippet": {
+    "title": "Synthetic Channel 1",
+    "publishedAt": "2015-01-01T00:00:00Z"
+   },
+   "contentDetails": {
+    "relatedPlaylists": {
+     "uploads": "UUsyntheticFixture00000001"
+    }
+   },
+   "statistics": {
+    "viewCount": "533171458",
+    "subscriberCount": "5396511",
+    "hiddenSubscriberCount": false,
+    "videoCount": "2669"
+   }
+  },
+  {
+   "kind": "youtube#channel",
+   "id": "UCsyntheticFixture00000002",
+   "snippet": {
+    "title": "Synthetic Channel 2",
+    "publishedAt": "2015-01-02T00:00:00Z"
+   },
+   "contentDetails": {
+    "relatedPlaylists": {
+     "uploads": "UUsyntheticFixture00000002"
+    }
+   },
+   "statistics": {
+    "viewCount": "534221571",
+    "subscriberCount": "7657322",
+    "hiddenSubscriberCount": false,
+    "videoCount": "3662"
+   }
+  },
+  {
+   "kind": "youtube#channel",
+   "id": "UCsyntheticFixture00000003",
+   "snippet": {
+    "title": "Synthetic Channel 3",
+    "publishedAt": "2015-01-03T00:00:00Z"
+   },
+   "contentDetails": {
+    "relatedPlaylists": {
+     "uploads": "UUsyntheticFixture00000003"
+    }
+   },
+   "statistics": {
+    "viewCount": "285738401",
+    "subscriberCount": "515552",
+    "hiddenSubscriberCount": false,
+    "videoCount": "4465"
+   }
+  }
+ ]
+}

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data. -->
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:ht="https://trends.google.com/trending/rss" version="2.0">
+	<channel>
+		<title>Daily Search Trends</title>
+		<description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</description>
+		<link>https://trends.google.com/trending/rss?geo=US</link>
+		<atom:link href="https://trends.google.com/trending/rss?geo=US" rel="self" type="application/rss+xml"/>
+		<item>
+			<title>synthetic us term 01</title>
+			<ht:approx_traffic>200+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 05:50:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 01: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/0</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 02</title>
+			<ht:approx_traffic>1000+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 05:40:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 02: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/1</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 03</title>
+			<ht:approx_traffic>200+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 05:30:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 03: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/2</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 04</title>
+			<ht:approx_traffic>500+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 05:20:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 04: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/3</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 05</title>
+			<ht:approx_traffic>100+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 05:10:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 05: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/4</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 06</title>
+			<ht:approx_traffic>200+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 05:00:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 06: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/5</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 07</title>
+			<ht:approx_traffic>2000+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 04:50:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 07: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/6</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 08</title>
+			<ht:approx_traffic>1000+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 04:40:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 08: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/7</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 09</title>
+			<ht:approx_traffic>200+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 04:30:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 09: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/8</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+		<item>
+			<title>synthetic us term 10</title>
+			<ht:approx_traffic>100+</ht:approx_traffic>
+			<description/>
+			<link>https://trends.google.com/trending/rss?geo=US</link>
+			<pubDate>Mon, 05 Oct 2026 04:20:00 +0000</pubDate>
+			<ht:picture>https://example.invalid/synthetic.png</ht:picture>
+			<ht:picture_source>Synthetic News</ht:picture_source>
+			<ht:news_item>
+				<ht:news_item_title>synthetic us term 10: synthetic headline</ht:news_item_title>
+				<ht:news_item_snippet/>
+				<ht:news_item_url>https://example.invalid/us/9</ht:news_item_url>
+				<ht:news_item_picture>https://example.invalid/synthetic.png</ht:news_item_picture>
+				<ht:news_item_source>Synthetic News</ht:news_item_source>
+			</ht:news_item>
+		</item>
+	</channel>
+</rss>

@@ -1,0 +1,206 @@
+{
+ "kind": "youtube#playlistItemListResponse",
+ "_synthetic": "SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.",
+ "items": [
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 00"
+   },
+   "contentDetails": {
+    "videoId": "synapi00xx",
+    "videoPublishedAt": "2026-10-05T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 01"
+   },
+   "contentDetails": {
+    "videoId": "synapi01xx",
+    "videoPublishedAt": "2026-10-04T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 02"
+   },
+   "contentDetails": {
+    "videoId": "synapi02xx",
+    "videoPublishedAt": "2026-10-03T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 03"
+   },
+   "contentDetails": {
+    "videoId": "synapi03xx",
+    "videoPublishedAt": "2026-10-02T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 04"
+   },
+   "contentDetails": {
+    "videoId": "synapi04xx",
+    "videoPublishedAt": "2026-10-01T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 05"
+   },
+   "contentDetails": {
+    "videoId": "synapi05xx",
+    "videoPublishedAt": "2026-09-30T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 06"
+   },
+   "contentDetails": {
+    "videoId": "synapi06xx",
+    "videoPublishedAt": "2026-09-29T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 07"
+   },
+   "contentDetails": {
+    "videoId": "synapi07xx",
+    "videoPublishedAt": "2026-09-28T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 08"
+   },
+   "contentDetails": {
+    "videoId": "synapi08xx",
+    "videoPublishedAt": "2026-09-27T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 09"
+   },
+   "contentDetails": {
+    "videoId": "synapi09xx",
+    "videoPublishedAt": "2026-09-26T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 10"
+   },
+   "contentDetails": {
+    "videoId": "synapi10xx",
+    "videoPublishedAt": "2026-09-25T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 11"
+   },
+   "contentDetails": {
+    "videoId": "synapi11xx",
+    "videoPublishedAt": "2026-09-24T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 12"
+   },
+   "contentDetails": {
+    "videoId": "synapi12xx",
+    "videoPublishedAt": "2026-09-23T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 13"
+   },
+   "contentDetails": {
+    "videoId": "synapi13xx",
+    "videoPublishedAt": "2026-09-22T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 14"
+   },
+   "contentDetails": {
+    "videoId": "synapi14xx",
+    "videoPublishedAt": "2026-09-21T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 15"
+   },
+   "contentDetails": {
+    "videoId": "synapi15xx",
+    "videoPublishedAt": "2026-09-20T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 16"
+   },
+   "contentDetails": {
+    "videoId": "synapi16xx",
+    "videoPublishedAt": "2026-09-19T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 17"
+   },
+   "contentDetails": {
+    "videoId": "synapi17xx",
+    "videoPublishedAt": "2026-09-18T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 18"
+   },
+   "contentDetails": {
+    "videoId": "synapi18xx",
+    "videoPublishedAt": "2026-09-17T06:00:00Z"
+   }
+  },
+  {
+   "kind": "youtube#playlistItem",
+   "snippet": {
+    "title": "Synthetic API upload 19"
+   },
+   "contentDetails": {
+    "videoId": "synapi19xx",
+    "videoPublishedAt": "2026-09-16T06:00:00Z"
+   }
+  }
+ ]
+}

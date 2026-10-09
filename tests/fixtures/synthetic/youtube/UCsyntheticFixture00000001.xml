@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data. -->
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+ <link rel="self" href="http://www.youtube.com/feeds/videos.xml?channel_id=UCsyntheticFixture00000001"/>
+ <id>yt:channel:syntheticFixture00000001</id>
+ <yt:channelId>syntheticFixture00000001</yt:channelId>
+ <title>Synthetic Channel 1</title>
+ <published>2015-01-01T00:00:00+00:00</published>
+ <entry>
+  <id>yt:video:syn100fixtr</id>
+  <yt:videoId>syn100fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-00</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn100fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-05T04:00:00+00:00</published>
+  <updated>2026-10-05T04:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-00</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="520" average="5.00" min="1" max="5"/>
+    <media:statistics views="657860"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn101fixtr</id>
+  <yt:videoId>syn101fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-01</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn101fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-04T22:00:00+00:00</published>
+  <updated>2026-10-04T22:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-01</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="337" average="5.00" min="1" max="5"/>
+    <media:statistics views="826799"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn102fixtr</id>
+  <yt:videoId>syn102fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-02</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn102fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-04T14:00:00+00:00</published>
+  <updated>2026-10-04T14:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-02</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="852" average="5.00" min="1" max="5"/>
+    <media:statistics views="592234"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn103fixtr</id>
+  <yt:videoId>syn103fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-03</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn103fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-04T04:00:00+00:00</published>
+  <updated>2026-10-04T04:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-03</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="356" average="5.00" min="1" max="5"/>
+    <media:statistics views="191567"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn104fixtr</id>
+  <yt:videoId>syn104fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-04</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn104fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-03T22:00:00+00:00</published>
+  <updated>2026-10-03T22:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-04</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="649" average="5.00" min="1" max="5"/>
+    <media:statistics views="788084"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn105fixtr</id>
+  <yt:videoId>syn105fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-05</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn105fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-03T13:00:00+00:00</published>
+  <updated>2026-10-03T13:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-05</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="548" average="5.00" min="1" max="5"/>
+    <media:statistics views="196030"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn106fixtr</id>
+  <yt:videoId>syn106fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-06</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn106fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-03T02:00:00+00:00</published>
+  <updated>2026-10-03T02:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-06</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="443" average="5.00" min="1" max="5"/>
+    <media:statistics views="826675"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn107fixtr</id>
+  <yt:videoId>syn107fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-07</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn107fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-02T21:00:00+00:00</published>
+  <updated>2026-10-02T21:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-07</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="187" average="5.00" min="1" max="5"/>
+    <media:statistics views="440600"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn108fixtr</id>
+  <yt:videoId>syn108fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-08</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn108fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-02T09:00:00+00:00</published>
+  <updated>2026-10-02T09:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-08</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="370" average="5.00" min="1" max="5"/>
+    <media:statistics views="386785"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn109fixtr</id>
+  <yt:videoId>syn109fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-09</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn109fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-02T03:00:00+00:00</published>
+  <updated>2026-10-02T03:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-09</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="241" average="5.00" min="1" max="5"/>
+    <media:statistics views="305872"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn110fixtr</id>
+  <yt:videoId>syn110fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-10</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn110fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-01T19:00:00+00:00</published>
+  <updated>2026-10-01T19:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-10</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="450" average="5.00" min="1" max="5"/>
+    <media:statistics views="501759"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn111fixtr</id>
+  <yt:videoId>syn111fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-11</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn111fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-01T11:00:00+00:00</published>
+  <updated>2026-10-01T11:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-11</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="823" average="5.00" min="1" max="5"/>
+    <media:statistics views="332341"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn112fixtr</id>
+  <yt:videoId>syn112fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-12</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn112fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-10-01T04:00:00+00:00</published>
+  <updated>2026-10-01T04:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-12</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="126" average="5.00" min="1" max="5"/>
+    <media:statistics views="28914"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn113fixtr</id>
+  <yt:videoId>syn113fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-13</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn113fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-09-30T22:00:00+00:00</published>
+  <updated>2026-09-30T22:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-13</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="542" average="5.00" min="1" max="5"/>
+    <media:statistics views="190276"/>
+   </media:community>
+  </media:group>
+ </entry>
+ <entry>
+  <id>yt:video:syn114fixtr</id>
+  <yt:videoId>syn114fixtr</yt:videoId>
+  <yt:channelId>UCsyntheticFixture00000001</yt:channelId>
+  <title>Synthetic upload 1-14</title>
+  <link rel="alternate" href="https://www.youtube.com/watch?v=syn114fixtr"/>
+  <author><name>Synthetic Channel 1</name><uri>https://www.youtube.com/channel/UCsyntheticFixture00000001</uri></author>
+  <published>2026-09-30T13:00:00+00:00</published>
+  <updated>2026-09-30T13:00:00+00:00</updated>
+  <media:group>
+   <media:title>Synthetic upload 1-14</media:title>
+   <media:description>SYNTHETIC FIXTURE - made-up values in the real source's shape; not real data.</media:description>
+   <media:community>
+    <media:starRating count="273" average="5.00" min="1" max="5"/>
+    <media:statistics views="58856"/>
+   </media:community>
+  </media:group>
+ </entry>
+</feed>
