@@ -92,15 +92,25 @@ def _read_csv(data: bytes) -> pl.DataFrame:
 
 
 def _spend_long(frame: pl.DataFrame, keys: list[str]) -> pl.DataFrame:
+    """Wide Spend_<CUR> columns -> one row per non-zero (keys, currency).
+
+    The wide files carry a column for every currency, zero outside the advertiser's region, so
+    zeros and blanks are dropped. Anything else is kept as published: a negative value stays
+    negative and an unparseable one becomes null, so the raw DQ gate (`ads_spend_non_negative`,
+    `ads_spend_parsed`) sees and stops it instead of the loader silently discarding it.
+    """
     spend_cols = [c for c in frame.columns if c.startswith("Spend_") and c != "Spend_Range"]
-    long = frame.unpivot(index=keys, on=spend_cols, variable_name="currency", value_name="spend")
+    long = frame.unpivot(index=keys, on=spend_cols, variable_name="currency", value_name="raw_spend")
+    raw = pl.col("raw_spend").str.strip_chars().str.replace_all(",", "")
     return (
         long.with_columns(
             pl.col("currency").str.strip_prefix("Spend_"),
-            pl.col("spend").str.replace_all(",", "").cast(pl.Float64, strict=False).fill_null(0.0),
+            raw.cast(pl.Float64, strict=False).round(0).cast(pl.Int64).alias("spend"),
+            raw.alias("raw_spend"),
         )
-        .filter(pl.col("spend") > 0)
-        .with_columns(pl.col("spend").cast(pl.Int64))
+        .filter(pl.col("raw_spend").is_not_null() & (pl.col("raw_spend") != ""))
+        .filter(pl.col("spend").is_null() | (pl.col("spend") != 0))
+        .drop("raw_spend")
     )
 
 

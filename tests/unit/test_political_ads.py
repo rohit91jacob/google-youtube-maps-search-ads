@@ -73,3 +73,19 @@ def test_corrupt_bundle_is_a_failed_entry(ctx):
     responses.get(url, body=b"not a zip")
     (entry,) = political_ads.extract(make_ctx(ctx, settings={"political_ads_url": url}))
     assert entry.status == "failed"
+
+
+def test_negative_and_unparseable_spend_reach_the_gate_not_the_bin():
+    """Zeros and blanks are dropped; bad values are kept so the raw DQ gate can stop them."""
+    frame = pl.DataFrame(
+        {
+            "Advertiser_ID": ["A", "B", "C", "D", "E"],
+            "Spend_USD": ["1,200", "0", "", "-500", "n/a"],
+        }
+    )
+    long = political_ads._spend_long(frame, ["Advertiser_ID"])
+    assert dict(zip(long["Advertiser_ID"], long["spend"], strict=True)) == {
+        "A": 1200,
+        "D": -500,
+        "E": None,
+    }

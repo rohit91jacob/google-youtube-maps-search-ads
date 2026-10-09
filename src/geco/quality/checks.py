@@ -112,6 +112,15 @@ def _raw_checks(now: datetime) -> list[Check]:
             "Google's spend weeks run Sunday to Saturday.",
         ),
         Check(
+            "ads_spend_parsed",
+            "raw",
+            "error",
+            """select 'weekly' as file, advertiser_id, currency from raw.ads_weekly_spend where spend is null
+               union all
+               select 'totals', advertiser_id, currency from raw.ads_advertiser_spend_totals where spend is null""",
+            "Every published spend value parsed as a number (none silently dropped).",
+        ),
+        Check(
             "ads_spend_non_negative",
             "raw",
             "error",

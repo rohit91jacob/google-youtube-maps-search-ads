@@ -11,7 +11,7 @@ are reported as found.
 | Run | Result |
 |---|---|
 | First live extract, all 5 sources | Trends 6 geos in 6.1 s; YouTube 7 feeds in 3.4 s; Netflix 3 files (15.9 MB) in 38.9 s; political-ads bundle (309.6 MB zip, 5 of its 12 files kept) in 43.9 s; OSM 8 cities in 362.7 s, because Overpass answered HTTP 504 "too busy" until endpoint failover and retries got through. |
-| Load + dbt build | 15 raw tables (1.4 M rows; 512,200 of them Netflix per-country rows). dbt: 2 seeds, 16 tables, 16 views, 97 tests, **PASS=131, ERROR=0**. Raw DQ gate: 25 checks, 1 warning (see political ads below). Marts DQ gate: 4/4. |
+| Load + dbt build | 15 raw tables (1.4 M rows; 512,200 of them Netflix per-country rows). dbt: 2 seeds, 16 tables, 16 views, 97 tests, **PASS=131, ERROR=0**. Raw DQ gate: 26 checks (25 at the time of this run; `ads_spend_parsed` was added in review, see below), 1 warning (see political ads below). Marts DQ gate: 4/4. |
 | Second full run, 4.7 h later | Political ads: HTTP 304 via ETag (no download). Netflix: downloaded, byte-identical, so no new bronze objects. OSM: skipped (counted less than 7 days ago). Whole run 1 min 57 s. |
 | Fixture pipeline (`geco fixtures-run`) + rerun | Same 131 dbt nodes pass. A full re-run adds no bronze object and changes no mart row (`tests/e2e/test_pipeline_fixtures.py::test_rerun_is_idempotent`). |
 
@@ -55,7 +55,10 @@ seasons the weekly views (hours ÷ runtime of what was released so far) add up t
 
 ## Political ads: four published aggregates of the same spend
 
-The bundle publishes US spend four ways. The pipeline loads all four, independently:
+The [bundle](https://storage.googleapis.com/political-csv/google-political-ads-transparency-bundle.zip)
+(the files behind the [Political advertising transparency report](https://adstransparency.google.com/political?region=US))
+publishes US spend four ways. The pipeline loads all four, independently. These are all Google's
+own figures; no third-party total for the same spend was available to compare with:
 
 | Google file | USD total | vs advertiser-stats |
 |---|---|---|
@@ -98,7 +101,11 @@ element ids were downloaded (`out ids`) and counted in Python, then compared wit
 | pharmacy | 294 | 294 |
 
 Independent Overpass instances (maps.mail.ru, private.coffee, kumi.systems) returned HTTP 500/504
-on 9 October, so a cross-instance comparison could not be made.
+on 9 October. On the independent review re-run (below), `overpass.private.coffee` answered one
+query: London cafés **2,664** (its OSM data was as of 15 July 2026) against **2,666** stored by
+the pipeline from overpass-api.de (OSM data of 9 October 2026), a 0.08% difference consistent with
+three months of edits. Its pharmacy and restaurant queries returned HTTP 500, so only one amenity
+could be cross-checked.
 
 ## Google Trends and YouTube: no published reference
 
@@ -119,3 +126,15 @@ on 9 October, so a cross-instance comparison could not be made.
 | `tflint --recursive` (0.64.0, terraform recommended preset + google ruleset 0.40.0) | 0 issues |
 | `checkov -d infra` (3.3.26) | 78 passed, 0 failed, 31 skipped. The skips are justified inline: 30 = CMEK and deletion protection on the 15 BigQuery *external* tables (no data stored in BigQuery), 1 = access logging on the log bucket itself. |
 | BigQuery SQL | every model compiles with `--target offline` and the compiled SQL parses with `sqlfluff parse --dialect bigquery` |
+
+## Independent review re-run
+
+A second, independent run from a fresh `uv sync --frozen` and an **empty** data directory, on
+9 October 2026 (18:15 UTC), with new downloads of every source:
+
+| Check | Result |
+|---|---|
+| `geco run --site` from scratch | exit 0. Trends 6 geos (1 poll each, 60 entered events), political-ads bundle re-downloaded (Google had regenerated it: report updated 2026-10-09 09:19 PT), Netflix 3 files, OSM 8 cities (210 s, Overpass busy), YouTube 7 feeds. dbt PASS=131, ERROR=0. Raw DQ: 1 warning (`ads_weekly_reconciles_with_totals`: ZAR +18.5%, TWD +2.2%, BRL +2.1%, as above). |
+| `scripts/verify_published.py` on that run | Netflix: 3,992 of 3,998 titles match (same 6 same-name films); 0 of 37 most-popular titles exceed the 91-day hours. Political ads, newer bundle: USD weekly sum $2,900,900,700 (+0.14% vs advertiser-stats), advertiser-geo-spend +1.46%, Biden for President weekly sum $100,662,200 vs Google's total $100,662,600 (−$400). |
+| Builder's lake rebuilt with the review fixes (`geco run --skip-extract`) | Every headline number in `summary.json` identical to the first run; README figures unchanged. |
+| DQ gate on tampered data (`tests/e2e/test_dq_gate.py`) | A negative or non-numeric `Spend_USD` cell in a copy of the bundle stops the pipeline at `load` with exit 3 before dbt runs. Before the review the loader dropped such values silently (it kept only spend > 0), so `ads_spend_non_negative` could never fire. |

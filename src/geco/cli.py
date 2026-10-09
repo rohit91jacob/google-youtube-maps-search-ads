@@ -6,6 +6,7 @@ import json
 import logging
 import sys
 from collections import Counter
+from enum import StrEnum
 from pathlib import Path
 from typing import Annotated
 
@@ -78,11 +79,16 @@ def transform(
         _fail(exc)
 
 
+class Layer(StrEnum):
+    raw = "raw"
+    marts = "marts"
+
+
 @app.command()
-def dq(layer: Annotated[str, typer.Option(help="raw or marts")] = "raw") -> None:
+def dq(layer: Annotated[Layer, typer.Option(help="Layer to check.")] = Layer.raw) -> None:
     """Run the data-quality checks for one layer (exit 3 on error-level failures)."""
     pipe = _pipeline()
-    results = run_checks(pipe.db_path, layer, pipe.now, pipe.lake, pipe.run_id)  # type: ignore[arg-type]
+    results = run_checks(pipe.db_path, layer.value, pipe.now, pipe.lake, pipe.run_id)
     failed = [r for r in results if not r.passed]
     typer.echo(f"{len(results)} checks, {len(failed)} failed")
     if has_errors(results):

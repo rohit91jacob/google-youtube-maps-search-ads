@@ -47,3 +47,8 @@ def test_live_trends_feed_parses():
     settings = Settings(_env_file=None)
     items = parse_rss(HttpClient(settings).get(settings.trends_url_template.format(geo="US")).read())
     assert items and all(i["term"] for i in items)
+
+
+def test_dq_rejects_an_unknown_layer():
+    result = runner.invoke(app, ["dq", "--layer", "bogus"])
+    assert result.exit_code == 2

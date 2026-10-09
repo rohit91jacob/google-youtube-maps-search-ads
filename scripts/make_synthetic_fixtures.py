@@ -181,6 +181,20 @@ def write_political_ads(rng: random.Random) -> None:
             bundle.writestr(info, data)
 
 
+# xlsxwriter stamps the creation time into docProps/core.xml and the zip entries; pin it so that
+# regenerating the fixtures is byte-identical.
+XLSX_CREATED = datetime(2026, 10, 9, 12, 42, tzinfo=UTC)
+
+
+def _write_xlsx(frame: pl.DataFrame, path: Path, worksheet: str) -> None:
+    import xlsxwriter
+
+    workbook = xlsxwriter.Workbook(str(path))
+    workbook.set_properties({"created": XLSX_CREATED.replace(tzinfo=None)})
+    frame.write_excel(workbook=workbook, worksheet=worksheet, autofit=False)
+    workbook.close()
+
+
 def write_netflix(rng: random.Random) -> None:
     folder = OUT / "netflix"
     folder.mkdir(parents=True, exist_ok=True)
@@ -221,8 +235,10 @@ def write_netflix(rng: random.Random) -> None:
                         "cumulative_weeks_in_top_10": cumulative[key],
                     }
                 )
-    pl.DataFrame(rows).sort("week", "category", "weekly_rank", descending=[True, False, False]).write_excel(
-        folder / "all-weeks-global.xlsx", worksheet="Top 10", autofit=False
+    _write_xlsx(
+        pl.DataFrame(rows).sort("week", "category", "weekly_rank", descending=[True, False, False]),
+        folder / "all-weeks-global.xlsx",
+        "Top 10",
     )
     countries = [("Synthetic Land", "XA"), ("Synthetic Republic", "XB"), ("Synthetic Kingdom", "XC")]
     country_rows = []
@@ -246,9 +262,7 @@ def write_netflix(rng: random.Random) -> None:
                             "cumulative_weeks_in_top_10": 1,
                         }
                     )
-    pl.DataFrame(country_rows).write_excel(
-        folder / "all-weeks-countries.xlsx", worksheet="Top 10", autofit=False
-    )
+    _write_xlsx(pl.DataFrame(country_rows), folder / "all-weeks-countries.xlsx", "Top 10")
     popular = []
     for category in lists:
         for rank in range(1, 11):
@@ -265,7 +279,7 @@ def write_netflix(rng: random.Random) -> None:
                     "views_first_91_days": views,
                 }
             )
-    pl.DataFrame(popular).write_excel(folder / "most-popular.xlsx", worksheet="Most Popular", autofit=False)
+    _write_xlsx(pl.DataFrame(popular), folder / "most-popular.xlsx", "Most Popular")
 
 
 def write_youtube(rng: random.Random) -> None:

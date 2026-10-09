@@ -12,7 +12,7 @@
 A data-engineering project on five **real, public, credential-free** sources from the Google
 ecosystem and its main streaming rival, designed for GCP and run locally on emulators:
 
-* **Search**: the Google Trends trending-now feed for 6 countries, polled every 3 hours. Poll-to-poll
+* **Search**: the Google Trends trending-now feed for 6 countries, polled every 3 hours by the scheduled job. Poll-to-poll
   diffs go through a **Pub/Sub** event stream. Marts: churn and how long searches stay trending.
 * **Ads**: Google's political-ads transparency bundle (the files behind BigQuery's
   `google_political_ads`): 306,378 advertiser-weeks of spend across 12 regions since 2018. Marts:
@@ -68,7 +68,7 @@ flowchart LR
   end
 
   PS[["Pub/Sub trends-events<br/>(local: file emulator)"]]
-  DQ1{{"raw DQ gate<br/>25 checks"}}
+  DQ1{{"raw DQ gate<br/>26 checks"}}
   subgraph bq["BigQuery (local: DuckDB)"]
     EXT[("raw.* external tables")]
     STG[("staging · intermediate<br/>views")]
@@ -92,7 +92,7 @@ flowchart LR
 | Lake | `src/geco/lake.py` | fsspec abstraction: `file://` locally, `gs://` with gcsfs, `memory://` in tests, fake-gcs-server in CI. |
 | Event stream | `src/geco/pubsub.py`, `sources/trends.py` | Each Trends poll is diffed against the previous one. `entered`/`exited` events with deterministic ids are published (ordering key = geo), drained to bronze and acked only after the write. Backends: local emulator or google-cloud-pubsub. |
 | Raw layer | `src/geco/raw.py` | Rebuilds 15 typed parquet tables from bronze + manifest on every load (deterministic, sorted). These are BigQuery external tables in production. |
-| Data quality | `src/geco/quality/checks.py`, dbt tests | 25 raw checks (grain, ranges, weekdays, freshness, cross-file reconciliation) gate dbt. 97 dbt tests plus 4 mart checks gate the site. Error-level failure = exit 3. |
+| Data quality | `src/geco/quality/checks.py`, dbt tests | 26 raw checks (grain, ranges, parse failures, weekdays, freshness, cross-file reconciliation) gate dbt. 97 dbt tests plus 4 mart checks gate the site. Error-level failure = exit 3. |
 | Transform | `dbt/` | Staging → intermediate → 16 marts, with portable macros (`dbt/macros/cross_db.sql`) so the same SQL runs on DuckDB and BigQuery. |
 | Orchestration | `src/geco/pipeline.py`, `infra/workflows/pipeline.yaml` | `geco run` locally; on GCP, Workflows runs the jobs (`mode=full` daily, `mode=trends` every 3 h). |
 | Site | `src/geco/report.py` | Static HTML with inline SVG charts, `summary.json` and CSV exports. |
@@ -155,7 +155,7 @@ reconciliations). The live site updates daily.
 
 | Domain | Result |
 |---|---|
-| Search | 24 polls (4 per geo over 4.7 h) → 204 Pub/Sub events, every one matching the snapshot diff. Average poll-to-poll churn 33% (BR) to 47% (US, JP). After 4.5 hours with no poll, all 10 searches had changed in every geo. |
+| Search | 24 polls (4 per geo over 4.7 h) → 204 Pub/Sub events, every one matching the snapshot diff. Average poll-to-poll churn 33% (BR) to 47% (US, JP), but the 3 gaps between polls were 8 min, 4.6 h and 4 min, so these averages mix very different intervals: over the 4.6 h gap all 10 searches had changed in every geo, over the two short gaps 0 to 4 of 10. Churn per 3-hour interval needs the scheduled polls. |
 | Ads | US: $2.89 B over 17,115 advertisers since May 2018. Top: Biden for President $100.7 M, Donald J. Trump for President $81.7 M, Harris Victory Fund $75.9 M. Calendar 2024: $841 M. |
 | Streaming | KPop Demon Hunters: 67 weeks in the global Top 10, the longest of any title. Week ending 4 Oct 2026: English TV 39.5% of Top 10 hours, non-English TV 29.8%. Since June 2021, non-English titles hold 37.8% of Top 10 hours. |
 | Maps | Amenities per km² in the 10 km box: Paris 289, Berlin 253, Tokyo 242, London 174, New York 122, São Paulo 77, Bengaluru 59, Delhi 20 (OSM data of 9 Oct 2026). |

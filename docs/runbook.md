@@ -7,7 +7,7 @@
 | Extract | `geco extract [-s SOURCE]` | Cloud Run job `geco-extract` | Fetches into bronze, content-addressed. Failures are recorded in the manifest (`status=failed`) and do not stop other sources. Trends diffs are published to Pub/Sub. |
 | Consume events | `geco consume-events` | same job, args `consume-events` | Drains `trends-events-loader` into one bronze JSONL object, then acks. Safe to re-run. |
 | Load | `geco load` | Cloud Run job `geco-load` | Rebuilds every `raw/<table>/data.parquet` from bronze, registers DuckDB views, runs the raw DQ gate. **Exit 3** = an error-level check failed. |
-| Transform | `geco transform` | Cloud Run job `geco-transform` (`DBT_TARGET=bigquery`) | `dbt build` (models + 100+ tests). **Exit 4** = dbt failed. Then the marts DQ gate (DuckDB only): **exit 3**. |
+| Transform | `geco transform` | Cloud Run job `geco-transform` (`DBT_TARGET=bigquery`) | `dbt build` (32 models + 97 tests). **Exit 4** = dbt failed. Then the marts DQ gate (DuckDB only): **exit 3**. |
 | Report | `geco report --out site` | GitHub Actions (`refresh.yml`) | Static site from the marts. |
 | Trends poll | `geco poll-trends` | Scheduler every 3 h -> Workflows `mode=trends` | Extract trends + consume events only. |
 | Prune | `geco prune --keep 3` | GCS lifecycle rules | Keeps the 3 latest versions of each snapshot file (political ads, Netflix). |
@@ -22,6 +22,7 @@
 | `osm/...: failed: ... HTTP 504 ... too busy` | Overpass is overloaded (common). | Nothing: the extractor tries every endpoint in `GECO_OVERPASS_ENDPOINTS` for 3 rounds, keeps the previous counts, and only re-counts weekly. `osm_fresh` warns after 21 days without a successful count. |
 | `netflix/...: response is not an xlsx file` | netflix.com answered with an HTML page (it does this for some user agents). | Keep the default `GECO_USER_AGENT`; the previous files stay in use. |
 | `raw_tables_present` / `raw_tables_not_empty` fail (exit 3) | A source has never been fetched successfully into this lake. | Run `geco extract -s <source>` and check its manifest entry with `geco status`. |
+| `ads_spend_non_negative` / `ads_spend_parsed` fail (exit 3) | A political-ads spend cell is negative or not a number (a format change in Google's CSVs). The loader keeps such values (only zeros and blanks are dropped) so the gate can stop the run. | Look at the sample rows in `ops/dq/<run_id>-raw.json`, adapt `political_ads._spend_long` to the new format, re-run `geco load`. |
 | `ads_weekly_reconciles_with_totals` warns | Google's weekly file and its lifetime totals disagree by more than 2% for a currency. This is in the source (ZAR, TWD, BRL on 9 Oct 2026, see verification.md). | None; it is a warning so the drift stays visible. |
 | `netflix_full_lists` warns | A published weekly list has fewer than 10 titles. | None; Netflix occasionally publishes short lists. |
 | dbt test `assert_trend_events_match_snapshots` fails | The Pub/Sub stream and the snapshots disagree, e.g. events were consumed from a different lake, or a poll was deleted. | Inspect `marts.fct_trends_events` vs `marts.mart_trends_churn_by_geo` for the failing geo/poll. Re-running consume-events is safe (events are deduplicated by `event_id`). |
