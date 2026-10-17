@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # One image for every Cloud Run job; the args pick the stage (`geco extract`, `geco load`, ...).
-FROM python:3.12-slim-trixie
+FROM python:3.14-slim-trixie
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
